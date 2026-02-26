@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  ai-agent-factory:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-agent-factory
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./data:/app/data
+      - ./agents:/app/agents
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # 可选: PostgreSQL 数据库
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai-agent-factory-db
+    environment:
+      - POSTGRES_DB=ai_agent_factory
+      - POSTGRES_USER=ai_agent_factory
+      - POSTGRES_PASSWORD=your_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

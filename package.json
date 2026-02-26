@@ -1,0 +1,65 @@
+{
+  "name": "ai-agent-factory",
+  "version": "1.0.0",
+  "description": "AI Agent 管理和部署平台",
+  "main": "server/src/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "cd server && npm run build",
+    "build:client": "cd client && npm run build",
+    "release": "npm run build && electron-builder",
+    "lint": "npm run lint:server && npm run lint:client",
+    "lint:server": "cd server && npm run lint",
+    "lint:client": "cd client && npm run lint"
+  },
+  "keywords": [
+    "ai-agent",
+    "automation",
+    "electron",
+    "react"
+  ],
+  "author": "antclaw",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.antclaw.aiagentfactory",
+    "productName": "AI Agent Factory",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "client/dist/**/*",
+      "server/dist/**/*",
+      "agents/**/*",
+      "package.json",
+      "electron-builder.yml"
+    ],
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.productivity"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ],
+      "category": "Development"
+    }
+  }
+}

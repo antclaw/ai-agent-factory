@@ -1,0 +1,65 @@
+appId: com.antclaw.aiagentfactory
+productName: AI Agent Factory
+copyright: Copyright © 2024 antclaw
+
+directories:
+  output: dist
+  buildResources: build
+
+files:
+  - client/dist/**/*
+  - server/dist/**/*
+  - agents/**/*
+  - package.json
+  - electron-builder.yml
+  - "!**/*.map"
+  - "!**/*.ts"
+  - "!**/*.tsx"
+
+extraMetadata:
+  main: server/dist/index.js
+
+win:
+  target:
+    - nsis
+    - portable
+  icon: build/icon.ico
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+mac:
+  target:
+    - dmg
+    - zip
+  icon: build/icon.icns
+  category: public.app-category.productivity
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+linux:
+  target:
+    - AppImage
+    - deb
+    - rpm
+  icon: build/icon.png
+  category: Development
+  maintainer: antclaw <antclaw@example.com>
+  vendor: antclaw
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeader: build/installer-header.bmp
+  installerSidebar: build/installer-sidebar.bmp
+  installerBackground: build/installer-background.bmp
+  deleteAppDataOnUninstall: true
+
+publish:
+  provider: github
+  owner: antclaw
+  repo: ai-agent-factory
